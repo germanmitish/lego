@@ -1,0 +1,70 @@
+{
+  "root": "apps/lego",
+  "sourceRoot": "apps/lego/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/lego",
+        "index": "apps/lego/src/index.html",
+        "baseHref": "/",
+        "main": "apps/lego/src/main.tsx",
+        "polyfills": "apps/lego/src/polyfills.ts",
+        "tsConfig": "apps/lego/tsconfig.app.json",
+        "assets": ["apps/lego/src/favicon.ico", "apps/lego/src/assets"],
+        "styles": [],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/lego/src/environments/environment.ts",
+              "with": "apps/lego/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "lego:build",
+        "hmr": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "lego:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/lego/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/lego"],
+      "options": {
+        "jestConfig": "apps/lego/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

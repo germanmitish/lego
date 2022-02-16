@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "projects": {
+    "lego": "apps/lego",
+    "lego-e2e": "apps/lego-e2e"
+  }
+}
