@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
 
   # Web server
@@ -17,20 +17,36 @@ services:
 
   # For business logic, according to the requirements
   mongo:
+    container_name: mongo
     image: mongo
     restart: always
-    ports:
-      - '27017:27017'
+    command: --keyFile /data/mongodb.key --replSet rs0 --auth --bind_ip_all --port 27017
     environment:
-      MONGO_INITDB_ROOT_USERNAME: "${DB_LOGIN}"
+      MONGO_INITDB_ROOT_USERNAME: "admin"
       MONGO_INITDB_ROOT_PASSWORD: "${DB_PASSWORD}"
+      USERNAME: "${DB_LOGIN}"
+      PASSWORD: "${DB_PASSWORD}"
+    ports:
+      - 27017:27017
     volumes:
       - ${MONGO_VOLUME:-mongo_data}:/data/db
+      - ./rs-init.sh:/data/rs-init.sh:ro
+      - ./mongodb.key:/data/mongodb.key
+
+  server:
+    container_name: server
+    restart: always
+    image: lego/server:latest
+    environment:
+      MONGODB_STRING: mongodb://${DB_LOGIN}:${DB_PASSWORD}@mongo:27017/lego?authSource=lego&retryWrites=true&w=majority
+    ports: 
+      - '4000:4000'
+    depends_on:
+      - mongo
 
   # For user authentication
   postgres:
     image: "nhost/postgres:12"
-    restart: always
     environment:
       POSTGRES_PASSWORD: "${DB_PASSWORD}"
       POSTGRES_USER: "${DB_LOGIN}"
@@ -65,8 +81,6 @@ services:
     ports:
       - '4000'
     restart: always
-    volumes:
-      - ./storage-rules:/app/custom/storage-rules
     environment:
       HOST: 0.0.0.0
       PORT: 4000

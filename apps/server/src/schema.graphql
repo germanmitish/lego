@@ -1,0 +1,58 @@
+type Query {
+  constructionByPk(id: ID!): Construction!
+  constructionByOwner(owner: ID!): [Construction!]!
+  constructionPartByPk(id: ID!): ConstructionPart!
+  partByPk(id: ID!): Part!
+  parts(limit: Int, offset: Int): [Part!]!
+}
+
+type Mutation{
+  createConstruction(input: ConstructionInput): Construction!
+  createConstructionPart(input: ConstructionPartInput): ConstructionPart!
+  createPart(input: PartInput): Part!
+  updateConstruction(id: ID!, input: ConstructionInput): Construction!
+  updateConstructionPart(id: ID!, input: ConstructionPartInput): ConstructionPart!
+  updatePart(id: ID!, input: PartInput): Part!
+  deleteConstruction(id: ID!): Construction!
+  deleteConstructionPart(id: ID!): ConstructionPart!
+  deletePart(id: ID!): Part!
+}
+
+type Part {
+  id: ID! 
+  name: String!
+  volume: Int!
+  constructionParts: [ConstructionPart]
+}
+
+input PartInput {
+  name: String!
+  volume: Int!
+}
+
+type ConstructionPart {
+  id: ID
+  part: Part
+  partId: ID
+  construction: Construction
+  constructionId: ID
+}
+
+input ConstructionPartInput {
+  partId: ID!
+  constructionId: ID!
+}
+
+scalar DateTime
+type Construction {
+  id: ID!
+  name: String!
+  created_at: DateTime!
+  parts: [ConstructionPart]
+  owner: String!
+}
+
+input ConstructionInput {
+  name: String
+  owner: String!
+}

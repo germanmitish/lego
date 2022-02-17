@@ -10,7 +10,11 @@
         "outputPath": "dist/apps/server",
         "main": "apps/server/src/main.ts",
         "tsConfig": "apps/server/tsconfig.app.json",
-        "assets": ["apps/server/src/assets"]
+        "webpackConfig": "apps/server/webpack.config.js",
+        "generatePackageJson": true,
+        "assets": [
+          "apps/server/src/schema.prisma"
+        ]
       },
       "configurations": {
         "production": {
@@ -26,14 +30,28 @@
         }
       }
     },
+    "prisma-gen": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/server/src",
+        "command": "prisma generate"
+      }
+    },
+    "prisma-pull": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/server/src",
+        "command": "prisma db pull"
+      }
+    },
     "gql-gen": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "cwd": "apps/server",
-        "command": "dotenv -- graphql-codegen --config codegen.yml"
+        "command": "graphql-codegen --config codegen.yml"
       }
     },
-    "serve": {
+    "start": {
       "executor": "@nrwl/node:execute",
       "options": {
         "buildTarget": "server:build"

@@ -1,14 +1,15 @@
-FROM node:16-alpine
+FROM node:16
 ARG NODE_ENV=production
-ENV NODE_ENV $NODE_ENV
-ENV PORT 3000
+
+RUN apt-get update
+RUN apt-get install -y openssl
 
 WORKDIR /app
-COPY ./dist/apps/admin .
+COPY ./dist/apps/server .
 
 RUN npm install --production
+RUN npx prisma generate
 
-HEALTHCHECK --interval=60s --timeout=2s --retries=3 CMD wget localhost:${PORT}/healthz -q -O - > /dev/null 2>&1
+EXPOSE 4000
 
-EXPOSE $PORT
 CMD ["node", "./main.js"]

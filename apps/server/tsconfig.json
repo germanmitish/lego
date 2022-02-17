@@ -11,10 +11,8 @@
     }
   ],
   "compilerOptions": {
+    "baseUrl": "./src",
     "paths": {
-      "*": ["src/types/*"],
-      "@shared/*": [ "src/shared/*" ],
-      "@generated/*": ["src/generated/*"],
       "@assets/*": ["../../../libs/assets/*"],
     },
   }

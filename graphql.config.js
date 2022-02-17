@@ -3,12 +3,9 @@ require('dotenv').config();
 module.exports = {
   projects: {
     server: {
-      schema: "apps/server/src/generated/graphql.schema.json",
+      schema: "apps/server/schema.graphql",
       documents: [
         "apps/server/src/**/*.graphql",
-        "apps/server/src/**/**/*.graphql",
-        "apps/server/src/**/**/**/*.graphql",
-        "apps/server/src/**/**/**/**/*.graphql"
       ],
       extensions: {
         endpoints: {

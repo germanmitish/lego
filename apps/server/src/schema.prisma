@@ -1,0 +1,32 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_STRING")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["mongodb"]
+}
+
+model Part {
+  id      String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name    String
+  volume  Int
+  constructionParts   ConstructionPart[]
+}
+
+model ConstructionPart {
+  id              String        @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  part            Part          @relation(fields: [partId], references: [id])  
+  partId          String        @db.ObjectId
+  construction    Construction  @relation(fields: [constructionId], references: [id])  
+  constructionId  String        @db.ObjectId
+}
+
+model Construction {
+  id          String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name        String
+  created_at  DateTime  @default(now())
+  parts       ConstructionPart[]
+  owner       String    @db.ObjectId
+}

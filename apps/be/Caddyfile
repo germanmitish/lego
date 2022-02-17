@@ -8,8 +8,12 @@ api.optindustries.link:5432 {
   reverse_proxy * postgres:5432
 }
 
-api.optindustries.link:27018 {
-  reverse_proxy * mongo:27018
+mongo.optindustries.link {
+  reverse_proxy * mongo:27017
+}
+
+mongo.optindustries.link:27019 {
+  reverse_proxy * mongo:27017
 }
 
 api.optindustries.link {

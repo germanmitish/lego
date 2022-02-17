@@ -11,11 +11,33 @@
         ]
       }
     },
-    "serve": {
+    "rs-setup": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "parallel": false,
+        "commands": [
+          "docker exec mongo /data/rs-init.sh"
+        ]
+      }
+    },
+    "keygen": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
-          "docker-compose -f apps/be/docker-compose.yml up -d --always-recreate-deps"
+          "bash keygen.sh"
+        ],
+        "cwd": "apps/be"
+      }
+    },
+    "start": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "parallel": false,
+        "commands": [
+          "nx keygen be",
+          "docker-compose -f apps/be/docker-compose.yml up -d --always-recreate-deps",
+          "sleep 10",
+          "nx rs-setup be"
         ]
       }
     },

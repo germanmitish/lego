@@ -27,7 +27,7 @@ jobs:
         hosts: ${{ secrets.HOST }}
         privateKey: ${{ secrets.KEY }}
         command: |
-          cd ~/wcty
+          cd ~/lego
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/id_rsa
           git fetch --all
@@ -42,4 +42,4 @@ jobs:
           fi
 
           yarn nx affected --target=deploy --base=main~1 --head=main --parallel --exclude=fe
-          yarn nx serve be
+          yarn nx start be

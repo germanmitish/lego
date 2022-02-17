@@ -1,26 +1,8 @@
 overwrite: true
 schema:
-  - 'https://gql.optindustries.link/v1/graphql':
-      headers:
-        X-Hasura-Admin-Secret: ${HASURA_GRAPHQL_ADMIN_SECRET}
-documents:
-  - 'src/**/*.graphql'
-  - 'src/**/**/*.graphql'
-  - 'src/**/**/**/*.graphql'
-  - 'src/**/**/**/**/*.graphql'
+  - './src/schema.graphql'
 generates:
-  src/generated/graphql.ts:
+  ./src/generated/resolvers-types.ts:
     plugins:
-      - 'typescript'
-      - 'typescript-resolvers'
-      - 'typescript-document-nodes'
-      - 'typescript-operations'
-      - 'typescript-graphql-request'
-      - 'fragment-matcher'
-    config:
-      withMutationFn: true
-      skipTypeNameForRoot: true
-      skipTypename: true
-  src/generated/graphql.schema.json:
-    plugins:
-      - 'introspection'
+      - typescript
+      - typescript-resolvers
