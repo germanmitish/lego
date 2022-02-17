@@ -1,0 +1,8 @@
+// Select the database to use.
+use('lego');
+
+db.parts.insertMany([
+  { '_id': 1, 'name': 'PartA', volume: 12 },
+  { '_id': 2, 'name': 'PartB', volume: 24 },
+  { '_id': 3, 'name': 'PartC', volume: 36 }
+]);

@@ -1,7 +1,10 @@
 {
   "version": 2,
   "projects": {
-    "lego": "apps/lego",
-    "lego-e2e": "apps/lego-e2e"
+    "assets": "libs/assets",
+    "be": "apps/be",
+    "fe": "apps/fe",
+    "server": "apps/server",
+    "ui": "libs/ui"
   }
 }

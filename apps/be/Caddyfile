@@ -1,0 +1,24 @@
+(cors){
+	@origin header Origin {args.0}
+	header @origin Access-Control-Allow-Origin "{args.0}"
+	header @origin Access-Control-Request-Method GET
+}
+
+api.optindustries.link:5432 {
+  reverse_proxy * postgres:5432
+}
+
+api.optindustries.link:27018 {
+  reverse_proxy * mongo:27018
+}
+
+api.optindustries.link {
+  @not_jwk {
+    not path /auth/jwks
+  }
+  reverse_proxy @not_jwk hasura-backend-plus:4000
+}
+
+gql.optindustries.link {
+  reverse_proxy * hasura:8080
+}

@@ -1,0 +1,45 @@
+name: Deployment
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'apps/fe/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Deploy
+      uses: germanmitish/action-ssh@master
+      env:
+        DB_LOGIN: ${{ secrets.DB_LOGIN }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}
+        COOKIE_SECRET: ${{ secrets.COOKIE_SECRET }}
+        HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
+      with:
+        hosts: ${{ secrets.HOST }}
+        privateKey: ${{ secrets.KEY }}
+        command: |
+          cd ~/wcty
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
+          git fetch --all
+          git reset --hard origin/main
+          yarn
+
+          git diff --quiet main~1 main apps/be/Caddyfile
+          if [ $? -ne 0 ]; 
+          then 
+            echo "Updated Caddyfile"
+            yarn nx update-caddy be
+          fi
+
+          yarn nx affected --target=deploy --base=main~1 --head=main --parallel --exclude=fe
+          yarn nx serve be
