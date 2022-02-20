@@ -78,7 +78,7 @@ services:
 
   # Authentication service
   hasura-backend-plus:
-    image: nhost/hasura-backend-plus:2.7.1
+    image: lego/hasura-backend-plus:latest
     ports:
       - '4000'
     restart: always
