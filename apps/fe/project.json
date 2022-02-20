@@ -37,6 +37,15 @@
         }
       }
     },
+    "gql-gen":{
+      "executor":"@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/fe",
+        "commands": [
+          "graphql-codegen --config codegen.yml --verbose"
+        ]
+      }
+    },
     "start": {
       "executor": "@nrwl/web:dev-server",
       "options": {
@@ -49,21 +58,6 @@
           "buildTarget": "fe:build:production",
           "hmr": false
         }
-      }
-    },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/fe/**/*.{ts,tsx,js,jsx}"]
-      }
-    },
-    "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/fe"],
-      "options": {
-        "jestConfig": "apps/fe/jest.config.js",
-        "passWithNoTests": true
       }
     }
   },

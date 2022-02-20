@@ -40,7 +40,7 @@ services:
     environment:
       MONGODB_STRING: mongodb://${DB_LOGIN}:${DB_PASSWORD}@mongo:27017/lego?authSource=lego&retryWrites=true&w=majority
     ports: 
-      - '4000:4000'
+      - '4000'
     depends_on:
       - mongo
 
@@ -52,7 +52,7 @@ services:
       POSTGRES_USER: "${DB_LOGIN}"
       POSTGRES_DB: postgres
     ports:
-      - '5432:5432'
+      - '5432'
     volumes:
       - ${PG_VOLUME:-lego_pg_data}:/var/lib/postgresql/data
       - ./migration.sql:/docker-entrypoint-initdb.d/migration.sql
@@ -80,7 +80,7 @@ services:
   hasura-backend-plus:
     image: lego/hasura-backend-plus:latest
     ports:
-      - '4000'
+      - '4000:4000'
     restart: always
     environment:
       HOST: 0.0.0.0

@@ -17,7 +17,7 @@ if [[ "$(docker images -q lego/hasura-backend-plus:latest 2> /dev/null)" == "" ]
   cd dist/apps/be/hasura-backend-plus
   cp docker/prod/Dockerfile Dockerfile
 
-  sed -i -e 's/FROM node:14-alpine AS builder/FROM node:14-bullseye AS builder/g' Dockerfile
+  sed -i -e 's/FROM node:14-alpine/FROM node:14-bullseye/g' Dockerfile
 
   docker build -t lego/hasura-backend-plus:latest .
   cd ..
