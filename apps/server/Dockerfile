@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:16-slim
 ARG NODE_ENV=production
 
 RUN apt-get update

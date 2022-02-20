@@ -3,11 +3,11 @@
   "sourceRoot": "apps/be/src",
   "projectType": "application",
   "targets": {
-    "build": {
+    "deploy": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
-          "nx deploy server"
+          "bash apps/be/build-from-source.sh"
         ]
       }
     },
