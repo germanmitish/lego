@@ -1,0 +1,7 @@
+query Parts {
+  parts {
+    id
+    name
+    volume
+  }
+}

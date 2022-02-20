@@ -9,8 +9,5 @@ query User($user_id: uuid!) {
     display_name
     first_name
     last_name
-    company {
-      name
-    }
   }
 }

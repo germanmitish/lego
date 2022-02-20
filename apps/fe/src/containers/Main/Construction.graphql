@@ -1,0 +1,17 @@
+query Construction($owner: ID!) {
+  constructionByOwner(owner: $owner) {
+    id
+    name
+    parts {
+      partId
+    }
+  }
+}
+
+mutation AddConstruction($owner: String = "") {
+  createConstruction(input: {owner: $owner}) {
+    name
+    id
+    created_at
+  }
+}

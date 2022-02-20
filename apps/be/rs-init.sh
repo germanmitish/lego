@@ -6,7 +6,7 @@ rs.initiate({
   members: [
     {
       _id: 0, 
-      host: 'host.docker.internal:27017',
+      host: 'mongo:27017',
       priority: 3
     }
   ]

@@ -61,7 +61,7 @@ services:
   hasura:
     image: hasura/graphql-engine:v2.3.0-beta.1
     ports:
-    - "8080"
+    - "8080:8080"
     depends_on:
       - postgres
       - hasura-backend-plus
@@ -87,7 +87,7 @@ services:
       PORT: 4000
       DATABASE_URL: >-
         postgres://${DB_LOGIN}:${DB_PASSWORD}@postgres:5432/postgres
-      REGISTRATION_CUSTOM_FIELDS: "display_name"
+      REGISTRATION_CUSTOM_FIELDS: "display_name,first_name,last_name"
       JWT_CUSTOM_FIELDS: display_name,avatar_url
       HIBP_ENABLED: "false"
       SERVER_URL: https://api.weee.city

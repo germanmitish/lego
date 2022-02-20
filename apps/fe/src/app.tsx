@@ -1,3 +1,4 @@
+import useAuthSetup from 'common/nhost/useAuthSetup';
 import styled from 'styled-components';
 import { GlobalStyle } from './common/styles';
 import Main from './containers/Main';
@@ -10,6 +11,8 @@ const Container = styled.div`
 `
 
 export function App() {
+  useAuthSetup()
+  
   return (
     <Container>
       <GlobalStyle/>

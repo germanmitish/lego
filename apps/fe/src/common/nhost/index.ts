@@ -9,7 +9,11 @@ export const BACKEND_ENDPOINT =
 export const nhost = createClient({
   baseURL: BACKEND_ENDPOINT,
 });
+
 export const { auth, storage } = nhost
-export const GQL_ENDPOINT = `https://gql.optindustries.link/v1/graphql`;
+export const GQL_ENDPOINT = 
+origin === 'http://localhost:3000'
+  ? 'http://localhost:8080'
+  : 'https://gql.optindustries.link/v1/graphql';
 
 export * from './NhostApolloProvider';

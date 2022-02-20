@@ -12,6 +12,7 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "typeRoots": ["src/types", "src/common/types", "node_modules/@types"],
     "paths": {
       "@ui": ["../../../libs/ui/src/index.ts"],
       "@ui/*": ["../../../libs/ui/src/*"],
