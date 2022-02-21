@@ -21,7 +21,6 @@ export function AccountButton() {
   
   return (
     <ButtonStyled noshadow>
-
       <SubMenu open={open}>
         {user ? 
           <div onClick={()=>auth.logout()}>
@@ -35,8 +34,7 @@ export function AccountButton() {
         }
       </SubMenu>
       <ButtonLow style={{border: '1px solid #ccc'}} onClick={()=>setOpen(!open)}>
-        <Avatar>
-        </Avatar>
+        <Avatar authorized={Boolean(user)}/>
       </ButtonLow>
     </ButtonStyled>
   );

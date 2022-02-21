@@ -12,7 +12,15 @@ module.exports = (config, context) => {
             '@svgr/webpack',
             'url-loader'
           ]
-        }
+        },
+        {
+          test: /\.gltf$/i,
+          use: 'file-loader',
+        },
+        {
+          test: /\.glb$/i,
+          use: 'file-loader',
+        },
       ],
     },
   };

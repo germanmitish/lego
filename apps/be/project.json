@@ -31,11 +31,22 @@
     },
     "start": {
       "executor": "@nrwl/workspace:run-commands",
+      "configurations": {
+        "production": {
+          "parallel": false,
+          "commands": [
+            "nx keygen be",
+            "docker-compose -f apps/be/docker-compose.yml up -d --always-recreate-deps",
+            "sleep 10",
+            "nx rs-setup be"
+          ]
+        }
+      },
       "options": {
         "parallel": false,
         "commands": [
           "nx keygen be",
-          "docker-compose -f apps/be/docker-compose.yml up -d --always-recreate-deps",
+          "docker-compose -f apps/be/docker-compose.yml -f apps/be/docker-compose.dev.yml up -d --always-recreate-deps",
           "sleep 10",
           "nx rs-setup be"
         ]

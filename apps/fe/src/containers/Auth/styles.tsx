@@ -22,7 +22,7 @@ AuthWrapper = styled.div.attrs(({ children }) => ({
     max-width: 600px;
   }
   z-index: 2;
-  margin-top: -2.5rem;
+  margin-top: -3.5rem;
 `,
 
 Wrapper = styled.div`
@@ -186,7 +186,7 @@ LogoutButton = styled.div`
 
 Avatar = styled.div.attrs({
   children: <LoginIcon/> as any
-})`
+})<{authorized?: boolean}>`
   width:100%; 
   height:100%;
   border-radius: 50%;
@@ -196,6 +196,9 @@ Avatar = styled.div.attrs({
   >svg {
     width: 100%;
     height: 100%;
+    ${p=>!p.authorized && css`
+      fill: #ccc;
+    `}
   }
 `,
 

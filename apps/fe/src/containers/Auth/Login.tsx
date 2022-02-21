@@ -12,6 +12,7 @@ import {
 } from './styles';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import { useUserLazyQuery } from 'generated';
 
 export default function Login() {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
@@ -57,10 +58,7 @@ export default function Login() {
                 auth
                   .login(credentials)
                   .then((response) => {
-                    console.log('resp', response);
-                    if (!response.session) {
-                      console.log('Please, check your email');
-                    }
+                    console.log('Logged in', response);
                   })
                   .catch((err) => {
                     console.log(

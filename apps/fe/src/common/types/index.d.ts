@@ -6,3 +6,16 @@ declare module '*.svg' {
   const src: string;
   export default src;
 }
+
+declare module 'random-words';
+
+
+declare module '*.gltf' {
+  const path: string;
+  export default path;
+}
+
+declare module '*.glb' {
+  const path: string;
+  export default path;
+}

@@ -5,22 +5,22 @@ export const SidebarContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 300px;
-  position: absolute;
+  position: relative;
   margin-left: 1rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
   flex: 0 0 300px;
   border: 1px solid #ccc;
-  height: calc(100% - 3rem);
-  padding: 0 1rem;
+  height: calc(100vh - 3rem);
+  padding: 1rem;
   user-select: none; 
 
 `,
 
-PartContainer = styled.div`
+PartContainer = styled.div<{dragged?: boolean}>`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: start;
   width: 100%;
   position: relative;
   padding: 1rem;
@@ -45,4 +45,7 @@ PartContainer = styled.div`
     pointer-events: none;
     user-select: none; 
   }
+  ${props => props.dragged && css`
+    pointer-events: none !important;
+  `}
 `

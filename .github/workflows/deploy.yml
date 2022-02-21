@@ -42,4 +42,4 @@ jobs:
           fi
 
           yarn nx affected --target=deploy --base=main~1 --head=main --parallel --exclude=fe
-          yarn nx start be
+          yarn nx run be:start:production

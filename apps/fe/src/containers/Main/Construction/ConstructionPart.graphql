@@ -1,0 +1,17 @@
+mutation AddConstructionPart(
+  $constructionId: ID!, 
+  $partId: ID!
+){
+  createConstructionPart(input: {
+    constructionId: $constructionId, 
+    partId: $partId
+  }) {
+    id
+  }
+}
+
+mutation RemovePart($id: ID!){
+  deleteConstructionPart(id:$id ) {
+    id
+  }
+}

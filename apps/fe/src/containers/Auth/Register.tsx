@@ -11,6 +11,7 @@ import {
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
+import { useUserLazyQuery } from 'generated';
 
 export default function Register() {
   const [credentials, setCredentials] = useState({
@@ -23,8 +24,8 @@ export default function Register() {
       },
     },
   });
-  const [authScreen, setAuthScreen] = useRecoilState(atoms.authScreen)
 
+  const [authScreen, setAuthScreen] = useRecoilState(atoms.authScreen)
 
   return (
     <>
@@ -100,12 +101,9 @@ export default function Register() {
                 console.log(credentials);
 
                 auth
-                  .register({
-                    email: credentials.email,
-                    password: credentials.password,
-                  })
+                  .register(credentials)
                   .then((response:any) => {
-                    console.log('Registered')
+                    console.log('Registered', response)
                   })
                   .catch((err:any) => {
                     console.log(

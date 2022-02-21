@@ -1,10 +1,11 @@
 import { PartContainer, SidebarContainer } from "./styles";
-import { usePartsQuery } from "generated";
+import { usePartsQuery, PartsQuery } from "generated";
 import { useMousePosition } from "common";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { off } from "process";
 import { atom, useRecoilState } from "recoil";
 import { useSpring } from "react-spring";
+import Preview from "./Preview";
 
 
 export default function Sidebar(){
@@ -16,23 +17,29 @@ export default function Sidebar(){
     x: mouse.x - (clickedPosition?.x||mouse.x),
     y: mouse.y - (clickedPosition?.y||mouse.y),
   }
-  const [_,setDragged] = useRecoilState(Sidebar.dragged)
+  const [dragged,setDragged] = useRecoilState(Sidebar.dragged)
 
+  // console.log(dragged)
+
+  useEffect(()=>{
+    window.addEventListener('pointerup',()=>{
+      setDragged(null)
+      setClickedPosition(null)
+    })
+  },[])
   
   return <>
     <SidebarContainer>
-      <h1>Menu</h1>
       {parts.map((p, key)=>
         <PartContainer 
+          dragged={Boolean(dragged)}
           style={{transform: `translate(${offset.x}px, ${offset.y}px)`}}
-          onPointerUp={()=>{
-            setDragged(false)
-            setClickedPosition(null)}}
           onPointerDown={()=>{
-            setDragged(true)
+            setDragged(p)
             setClickedPosition(mouse)}} 
           {...{key}}>
-            <h2>{p.name}</h2>
+            <h3>{p.name}</h3>
+            <Preview name={p.name as any}/>
         </PartContainer>
       )}
     </SidebarContainer>
@@ -41,5 +48,5 @@ export default function Sidebar(){
 
 Sidebar.dragged = atom({
   key: 'dragged',
-  default: false,
+  default: null as PartsQuery['parts'][number]|null,
 })

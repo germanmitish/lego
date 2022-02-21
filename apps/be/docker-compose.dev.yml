@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+
+  hasura-backend-plus:
+    environment:
+      SERVER_URL: http://localhost:4000
+      REDIRECT_URL_SUCCESS: 'http://localhost:3000/success'
+      REDIRECT_URL_ERROR: 'http://localhost:3000/failure'
+  
+  mongo:
+    environment:
+      NODE_ENV: ""
+      
+  server-dev:
+    restart: always
+    image: lego/server:latest
+    environment:
+      MONGODB_STRING: mongodb://${DB_LOGIN}:${DB_PASSWORD}@mongo:27017/lego?authSource=lego&retryWrites=true&w=majority
+    ports: 
+      - '4000'
+    command: tail -f /dev/null
+    depends_on:
+      - mongo
+    volumes:
+      - ../../:/app
+
+volumes:
+  caddy_data:
+  lego_pg_data:
+  mongo_data:

@@ -64,7 +64,6 @@ services:
     - "8080:8080"
     depends_on:
       - postgres
-      - hasura-backend-plus
     restart: always
     environment:
       HASURA_GRAPHQL_DATABASE_URL: "host=postgres dbname=postgres port=5432 user=${DB_LOGIN} password=${DB_PASSWORD}"
@@ -81,6 +80,8 @@ services:
     image: lego/hasura-backend-plus:latest
     ports:
       - '4000:4000'
+    depends_on:
+      - hasura
     restart: always
     environment:
       HOST: 0.0.0.0
@@ -90,11 +91,11 @@ services:
       REGISTRATION_CUSTOM_FIELDS: "display_name,first_name,last_name"
       JWT_CUSTOM_FIELDS: display_name,avatar_url
       HIBP_ENABLED: "false"
-      SERVER_URL: https://api.weee.city
+      SERVER_URL: https://auth.optindustries.link
       JWT_KEY: '$JWT_PRIVATE_KEY'
       JWT_ALGORITHM: RS256
       HASURA_ENDPOINT: http://hasura:8080/v1/graphql
-      HASURA_GRAPHQL_ADMIN_SECRET: "$DB_PASSWORD"
+      HASURA_GRAPHQL_ADMIN_SECRET: "$HASURA_GRAPHQL_ADMIN_SECRET"
       GOOGLE_ENABLED: 'false'
       FACEBOOK_ENABLED: 'false'
       AUTO_MIGRATE: 'true'

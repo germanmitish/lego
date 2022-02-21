@@ -9,6 +9,14 @@ module.exports = (config, context) => {
           test: /\.graphql$/i,
           use: 'file-loader',
         },
+        {
+          test: /\.gltf$/i,
+          use: 'file-loader',
+        },
+        {
+          test: /\.glb$/i,
+          use: 'file-loader',
+        },
       ],
     },
   };

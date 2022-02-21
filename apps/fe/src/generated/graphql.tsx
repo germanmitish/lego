@@ -397,19 +397,42 @@ export type UserQueryVariables = Exact<{
 
 export type UserQuery = { users_by_pk?: { id: any, avatar_url?: string | null, created_at: any, display_name?: string | null, first_name?: string | null, last_name?: string | null, account?: { email?: any | null } | null } | null };
 
-export type ConstructionQueryVariables = Exact<{
+export type ConstructionsQueryVariables = Exact<{
   owner: Scalars['ID'];
 }>;
 
 
-export type ConstructionQuery = { constructionByOwner: Array<{ id: string, name: string, parts?: Array<{ partId?: string | null } | null> | null }> };
+export type ConstructionsQuery = { constructionByOwner: Array<{ id: string, name: string, parts?: Array<{ id?: string | null, part?: { volume: number, name: string } | null } | null> | null }> };
 
 export type AddConstructionMutationVariables = Exact<{
-  owner?: InputMaybe<Scalars['String']>;
+  owner: Scalars['String'];
+  name: Scalars['String'];
 }>;
 
 
 export type AddConstructionMutation = { createConstruction: { name: string, id: string, created_at: any } };
+
+export type DeleteConstructionMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteConstructionMutation = { deleteConstruction: { id: string } };
+
+export type AddConstructionPartMutationVariables = Exact<{
+  constructionId: Scalars['ID'];
+  partId: Scalars['ID'];
+}>;
+
+
+export type AddConstructionPartMutation = { createConstructionPart: { id?: string | null } };
+
+export type RemovePartMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type RemovePartMutation = { deleteConstructionPart: { id?: string | null } };
 
 export type PartsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -460,48 +483,52 @@ export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQ
 export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
 export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
 export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
-export const ConstructionDocument = gql`
-    query Construction($owner: ID!) {
+export const ConstructionsDocument = gql`
+    query Constructions($owner: ID!) {
   constructionByOwner(owner: $owner) {
     id
     name
     parts {
-      partId
+      id
+      part {
+        volume
+        name
+      }
     }
   }
 }
     `;
 
 /**
- * __useConstructionQuery__
+ * __useConstructionsQuery__
  *
- * To run a query within a React component, call `useConstructionQuery` and pass it any options that fit your needs.
- * When your component renders, `useConstructionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useConstructionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useConstructionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useConstructionQuery({
+ * const { data, loading, error } = useConstructionsQuery({
  *   variables: {
  *      owner: // value for 'owner'
  *   },
  * });
  */
-export function useConstructionQuery(baseOptions: Apollo.QueryHookOptions<ConstructionQuery, ConstructionQueryVariables>) {
+export function useConstructionsQuery(baseOptions: Apollo.QueryHookOptions<ConstructionsQuery, ConstructionsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ConstructionQuery, ConstructionQueryVariables>(ConstructionDocument, options);
+        return Apollo.useQuery<ConstructionsQuery, ConstructionsQueryVariables>(ConstructionsDocument, options);
       }
-export function useConstructionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ConstructionQuery, ConstructionQueryVariables>) {
+export function useConstructionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ConstructionsQuery, ConstructionsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ConstructionQuery, ConstructionQueryVariables>(ConstructionDocument, options);
+          return Apollo.useLazyQuery<ConstructionsQuery, ConstructionsQueryVariables>(ConstructionsDocument, options);
         }
-export type ConstructionQueryHookResult = ReturnType<typeof useConstructionQuery>;
-export type ConstructionLazyQueryHookResult = ReturnType<typeof useConstructionLazyQuery>;
-export type ConstructionQueryResult = Apollo.QueryResult<ConstructionQuery, ConstructionQueryVariables>;
+export type ConstructionsQueryHookResult = ReturnType<typeof useConstructionsQuery>;
+export type ConstructionsLazyQueryHookResult = ReturnType<typeof useConstructionsLazyQuery>;
+export type ConstructionsQueryResult = Apollo.QueryResult<ConstructionsQuery, ConstructionsQueryVariables>;
 export const AddConstructionDocument = gql`
-    mutation AddConstruction($owner: String = "") {
-  createConstruction(input: {owner: $owner}) {
+    mutation AddConstruction($owner: String!, $name: String!) {
+  createConstruction(input: {owner: $owner, name: $name}) {
     name
     id
     created_at
@@ -524,6 +551,7 @@ export type AddConstructionMutationFn = Apollo.MutationFunction<AddConstructionM
  * const [addConstructionMutation, { data, loading, error }] = useAddConstructionMutation({
  *   variables: {
  *      owner: // value for 'owner'
+ *      name: // value for 'name'
  *   },
  * });
  */
@@ -534,6 +562,108 @@ export function useAddConstructionMutation(baseOptions?: Apollo.MutationHookOpti
 export type AddConstructionMutationHookResult = ReturnType<typeof useAddConstructionMutation>;
 export type AddConstructionMutationResult = Apollo.MutationResult<AddConstructionMutation>;
 export type AddConstructionMutationOptions = Apollo.BaseMutationOptions<AddConstructionMutation, AddConstructionMutationVariables>;
+export const DeleteConstructionDocument = gql`
+    mutation DeleteConstruction($id: ID!) {
+  deleteConstruction(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteConstructionMutationFn = Apollo.MutationFunction<DeleteConstructionMutation, DeleteConstructionMutationVariables>;
+
+/**
+ * __useDeleteConstructionMutation__
+ *
+ * To run a mutation, you first call `useDeleteConstructionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteConstructionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteConstructionMutation, { data, loading, error }] = useDeleteConstructionMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteConstructionMutation(baseOptions?: Apollo.MutationHookOptions<DeleteConstructionMutation, DeleteConstructionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteConstructionMutation, DeleteConstructionMutationVariables>(DeleteConstructionDocument, options);
+      }
+export type DeleteConstructionMutationHookResult = ReturnType<typeof useDeleteConstructionMutation>;
+export type DeleteConstructionMutationResult = Apollo.MutationResult<DeleteConstructionMutation>;
+export type DeleteConstructionMutationOptions = Apollo.BaseMutationOptions<DeleteConstructionMutation, DeleteConstructionMutationVariables>;
+export const AddConstructionPartDocument = gql`
+    mutation AddConstructionPart($constructionId: ID!, $partId: ID!) {
+  createConstructionPart(
+    input: {constructionId: $constructionId, partId: $partId}
+  ) {
+    id
+  }
+}
+    `;
+export type AddConstructionPartMutationFn = Apollo.MutationFunction<AddConstructionPartMutation, AddConstructionPartMutationVariables>;
+
+/**
+ * __useAddConstructionPartMutation__
+ *
+ * To run a mutation, you first call `useAddConstructionPartMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddConstructionPartMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addConstructionPartMutation, { data, loading, error }] = useAddConstructionPartMutation({
+ *   variables: {
+ *      constructionId: // value for 'constructionId'
+ *      partId: // value for 'partId'
+ *   },
+ * });
+ */
+export function useAddConstructionPartMutation(baseOptions?: Apollo.MutationHookOptions<AddConstructionPartMutation, AddConstructionPartMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddConstructionPartMutation, AddConstructionPartMutationVariables>(AddConstructionPartDocument, options);
+      }
+export type AddConstructionPartMutationHookResult = ReturnType<typeof useAddConstructionPartMutation>;
+export type AddConstructionPartMutationResult = Apollo.MutationResult<AddConstructionPartMutation>;
+export type AddConstructionPartMutationOptions = Apollo.BaseMutationOptions<AddConstructionPartMutation, AddConstructionPartMutationVariables>;
+export const RemovePartDocument = gql`
+    mutation RemovePart($id: ID!) {
+  deleteConstructionPart(id: $id) {
+    id
+  }
+}
+    `;
+export type RemovePartMutationFn = Apollo.MutationFunction<RemovePartMutation, RemovePartMutationVariables>;
+
+/**
+ * __useRemovePartMutation__
+ *
+ * To run a mutation, you first call `useRemovePartMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemovePartMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removePartMutation, { data, loading, error }] = useRemovePartMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRemovePartMutation(baseOptions?: Apollo.MutationHookOptions<RemovePartMutation, RemovePartMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemovePartMutation, RemovePartMutationVariables>(RemovePartDocument, options);
+      }
+export type RemovePartMutationHookResult = ReturnType<typeof useRemovePartMutation>;
+export type RemovePartMutationResult = Apollo.MutationResult<RemovePartMutation>;
+export type RemovePartMutationOptions = Apollo.BaseMutationOptions<RemovePartMutation, RemovePartMutationVariables>;
 export const PartsDocument = gql`
     query Parts {
   parts {

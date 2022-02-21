@@ -1,17 +1,27 @@
-query Construction($owner: ID!) {
+query Constructions($owner: ID!) {
   constructionByOwner(owner: $owner) {
     id
     name
     parts {
-      partId
+      id
+      part {
+        volume
+        name
+      }
     }
   }
 }
 
-mutation AddConstruction($owner: String = "") {
-  createConstruction(input: {owner: $owner}) {
+mutation AddConstruction($owner: String!, $name: String! ) {
+  createConstruction(input: {owner: $owner, name: $name}) {
     name
     id
     created_at
+  }
+}
+
+mutation DeleteConstruction($id: ID!) {
+  deleteConstruction(id: $id) {
+    id
   }
 }

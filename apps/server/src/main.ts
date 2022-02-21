@@ -28,7 +28,7 @@ async function main() {
       { 'name': 'PartA', volume: 12 },
       { 'name': 'PartB', volume: 24 },
       { 'name': 'PartC', volume: 36 }
-    ]
+    ],
   })
   console.log('Created parts')
 

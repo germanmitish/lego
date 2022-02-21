@@ -6,8 +6,12 @@ import Sidebar from './containers/Sidebar';
 
 const Container = styled.div`
   display: flex;
-  width: 100%;
-  height: 100%;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
 `
 
 export function App() {
@@ -16,8 +20,9 @@ export function App() {
   return (
     <Container>
       <GlobalStyle/>
-      <Main/>
       <Sidebar/>
+      <Main/>
+
     </Container>
   );  
 }
