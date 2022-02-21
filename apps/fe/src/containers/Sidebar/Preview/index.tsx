@@ -1,10 +1,11 @@
 import { useGLTF } from '@react-three/drei'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas, ObjectMap, useFrame } from '@react-three/fiber'
 import block4 from '@assets/models/block4.glb'
 import block8 from '@assets/models/block8.glb'
 import block12 from '@assets/models/block12.glb'
 import { Suspense, useEffect } from 'react'
 import { Mesh, MeshBasicMaterial, MeshStandardMaterial, PointLight } from 'three'
+import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 
 const dict = {
   "PartA": {
@@ -61,7 +62,7 @@ const params = {
 }
 
 function Model({name='PartA'}:{name?:keyof typeof dict}){
-  const { nodes }:{ nodes: {[key:string]: Mesh} } = useGLTF(dict[name].url)
+  const { nodes }:GLTF & ObjectMap  = useGLTF(dict[name].url)
   useEffect(()=>{
     nodes[dict[name].key].rotateY(params[name].offset*3.14/6)
   },[nodes])
