@@ -91,7 +91,7 @@ services:
       REGISTRATION_CUSTOM_FIELDS: "display_name,first_name,last_name"
       JWT_CUSTOM_FIELDS: display_name,avatar_url
       HIBP_ENABLED: "false"
-      SERVER_URL: https://auth.optindustries.link
+      SERVER_URL: https://api.russianwarcrimes.link
       JWT_KEY: '$JWT_PRIVATE_KEY'
       JWT_ALGORITHM: RS256
       HASURA_ENDPOINT: http://hasura:8080/v1/graphql
@@ -105,8 +105,8 @@ services:
       VERIFY_EMAILS: 'false'
       EMAILS_ENABLED: 'false'
       AUTO_ACTIVATE_NEW_USERS: 'true'
-      REDIRECT_URL_SUCCESS: 'https://optindustries.link/success'
-      REDIRECT_URL_ERROR: 'https://optindustries.link/failure'
+      REDIRECT_URL_SUCCESS: 'https://russianwarcrimes.link/success'
+      REDIRECT_URL_ERROR: 'https://russianwarcrimes.link/failure'
       MIN_PASSWORD_LENGTH: 6
       DEFAULT_ALLOWED_USER_ROLES: user,me
       ALLOWED_USER_ROLES: user,me
